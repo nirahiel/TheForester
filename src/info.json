@@ -1,0 +1,11 @@
+{
+    "name": "TheForester",
+    "version": "1.0.0",
+    "title": "The Forester",
+    "author": "Nirahiel",
+    "contact": "",
+    "homepage": "https://github.com/nirahiel/TheForester",
+    "factorio_version": "0.17",
+    "dependencies": ["base >= 0.17"],
+    "description": "This mod adds several forestry related solutions for Factorio."
+}
