@@ -1,0 +1,9 @@
+{
+  "cmd": "php",
+  "name": "Deploy Factorio Mod",
+  "sh": false,
+  "args": [
+    "{PROJECT_PATH}/build.php"
+
+  ]
+}
