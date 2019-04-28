@@ -1,6 +1,6 @@
-local function starts_with(str, start)
-  return str:sub(1, #start) == start
-end
+--local function starts_with(str, start)
+--  return str:sub(1, #start) == start
+--end
 
 script.on_event({defines.events.on_tick},
    function (e)
