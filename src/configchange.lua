@@ -34,7 +34,6 @@ add_migration{
         global.saplingsLifecycle[key] = nil
       else
         data.lifetime = data.lifetime * 60 + game.tick --conversion
-        data.lifetime = 10 * 60 + game.tick --test
         global.saplingsLifecycle[key] = data
         scheduler.schedule(data.lifetime, function(tick)
           growSapling(data.sapling)
