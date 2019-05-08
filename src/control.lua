@@ -12,8 +12,7 @@ script.on_event({defines.events.on_tick},
 script.on_event({defines.events.on_built_entity, defines.events.on_robot_built_entity},
   function (e)
     if e.created_entity.name == "sapling" then
-      --local growth = 30 * 60 * 60 + game.tick --30 minutes * 60 secondes * 60 ticks / seconde
-      local growth = 10 * 60 + game.tick --test
+      local growth = 30 * 60 * 60 + game.tick --30 minutes * 60 secondes * 60 ticks / seconde
       table.insert(global.saplingsLifecycle, {
         sapling = e.created_entity,
         lifetime = growth
