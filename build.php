@@ -55,7 +55,7 @@ function zipDirectory($directory, $destZip) {
           // Get real and relative path for current file
           $filePath = $file->getRealPath();
           $relativePath = substr($filePath, strlen($rootPath) + 1);
-          $relativePath = basename($directory) . "\\" . $relativePath;
+          $relativePath = basename($directory) . "/" . $relativePath;
 
           // Add current file to archive
           $zip->addFile($filePath, $relativePath);
