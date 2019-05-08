@@ -4,9 +4,11 @@ data:extend(
     {
       type = "recipe",
       name = "sapling-germination",
-      ingredients = {{"tree-seed", 1}},
+      enabled = "false",
+      category = "crafting-with-fluid",
+      ingredients = {{"tree-seed", 1}, {type="fluid", name="fertilizer", amount=5}},
       result = "sapling",
-      energy_required = 10
+      energy_required = 2
     }
   }
 )

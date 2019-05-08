@@ -1,6 +1,4 @@
-local function starts_with(str, start)
-  return str:sub(1, #start) == start
-end
+require("lib.functions")
 
 for key, value in pairs(data.raw.tree) do
   if starts_with(key, "tree-") then

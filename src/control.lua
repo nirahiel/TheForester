@@ -1,58 +1,51 @@
---local function starts_with(str, start)
---  return str:sub(1, #start) == start
---end
+require("lib.functions")
+
+local scheduler = require("lib.scheduler")
+local configchange = require("configchange")
 
 script.on_event({defines.events.on_tick},
-   function (e)
-      if e.tick % 60 == 0 then
-        for key, data in pairs(global.saplingsLifecycle) do
-          if not data.sapling.valid then
-            global.saplingsLifecycle[key] = nil
-            return
-          end
-          data.lifetime = data.lifetime - 1
-          global.saplingsLifecycle[key] = data
-          if data.lifetime <= 0 then
-            local treePosition = data.sapling.position
-            local surface = data.sapling.surface
-            data.sapling.destroy({raise_destroy = true})
-            global.saplingsLifecycle[key] = nil
-            surface.create_entity({
-              position = treePosition,
-              name = "tree-0" .. math.random(1, 9)
-            })
-          end
-        end
-      end
-   end
+  function (e)
+    scheduler.on_tick(e.tick)
+  end
 )
 
 script.on_event({defines.events.on_built_entity, defines.events.on_robot_built_entity},
   function (e)
     if e.created_entity.name == "sapling" then
-      --game.connected_players[e.player_index].print("test")
+      --local growth = 30 * 60 * 60 + game.tick --30 minutes * 60 secondes * 60 ticks / seconde
+      local growth = 10 * 60 + game.tick --test
       table.insert(global.saplingsLifecycle, {
         sapling = e.created_entity,
-        lifetime = 30 * 60
+        lifetime = growth
       })
+      scheduler.schedule(growth, function(tick)
+        growSapling(e.created_entity)
+      end)
     end
   end
 )
 
 script.on_init(
   function()
-    if global.saplingsLifecycle == nil then
-      global.saplingsLifecycle = {}
+    global.saplingsLifecycle = global.saplingsLifecycle or {}
+  end
+)
+
+script.on_load(
+  function()
+    -- Restore scheduled operations
+    for key, data in pairs(global.saplingsLifecycle) do
+      scheduler.schedule(data.lifetime, function(tick)
+        growSapling(data.sapling)
+      end)
     end
-    --[[
-    global.treeNames = {}
-    for key, value in pairs(data.raw.tree) do
-      if starts_with(key, "tree-") then
-        data.raw.tree[key].minable.result = nil
-        data.raw.tree[key].minable.count = nil
-        data.raw.tree[key].minable.results = {{name = "wood", amount = 4}, {name = "tree-seed", amount = 1}, {name = "tree-seed", amount = 1, probability = 0.25}}
-      end
+  end
+)
+
+script.on_configuration_changed(
+  function(e)
+    if e.mod_changes.TheForester and e.mod_changes.TheForester.old_version then
+      configchange.on_mod_version_changed(e.mod_changes.TheForester.old_version)
     end
-    ]]
   end
 )
